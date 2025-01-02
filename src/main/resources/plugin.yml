@@ -1,0 +1,17 @@
+name: TStaffMode
+main: com.tenth.tstaffmode.StaffMode
+version: 1.0
+api-version: 1.21
+commands:
+  tstaffmode:
+    description: Toggle staff mode. Wipes user's inventory.
+    usage: /tstaffmode <on|off>
+    permission: tstaffmode.use
+  help:
+    description: Get plugin help and version.
+    usage: /tstaffmode help
+    permission: tstaffmode.use
+permissions:
+  staffmode.use:
+    description: Allows usage of staffmode commands
+    default: op
