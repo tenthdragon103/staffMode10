@@ -1,6 +1,12 @@
 package com.tenth.tstaffmode;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,15 +18,25 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.codehaus.plexus.util.FileUtils;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class StaffMode extends JavaPlugin implements CommandExecutor {
     private Map<UUID, ItemStack[]> savedInventories;
     private File inventoryFile;
     private FileConfiguration inventoryConfig;
+    private String newPluginVersion;
+    private String newPluginMinecraftVersion;
+    private static final String GITHUB_API_URL = "https://api.github.com/repos/tenthdragon103/staffMode10/releases/latest";
+    private static final String CURRENT_PLUGIN_JAR = "plugins/TStaffMode-1.1.jar";
 
     @Override
     public void onEnable() {
@@ -133,6 +149,16 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         }
     }
 
+    public void notifyAdminUpdate(Player player) {
+        Component message = Component.text("An update is available for StaffMode, allow automatic download and replacement from GitHub? ")
+                .color(NamedTextColor.YELLOW)
+                        .hoverEvent(HoverEvent.showText(Component.text("Plugin version " + newPluginVersion + " for Minecraft version " + newPluginMinecraftVersion)))
+                .append(Component.text("[Allow]")
+                        .color(NamedTextColor.GREEN)
+                        .clickEvent(ClickEvent.runCommand("/staffmode allowUpdate")));
+        player.sendMessage(message);
+    }
+
     //handles /staffmode commmand
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -155,11 +181,83 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             disableStaffMode(player);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
             aboutHelpMessage(player);
+        } else if (args.length == 1 && args[0].equals("updateAllow")) {
+            if (!player.hasPermission("tstaffmode.updater")) {
+                player.sendMessage(Component.text("You do not have permission to run this command. This incident will be reported.").color(NamedTextColor.RED));
+                getLogger().warning("Non admin attempted to run restricted command! (" + player.getName() + ")");
+            } else {
+                if (updatePlugin()) {
+                    player.sendMessage(Component.text("Update succeeded! Server restart is needed to complete the update. Restart now? ").color(NamedTextColor.GREEN)
+                            .append(Component.text("[Restart]").color(NamedTextColor.RED).clickEvent(ClickEvent.runCommand("/restart"))));
+                } else {
+                    player.sendMessage(Component.text("Update failed! See console for further information.").color(NamedTextColor.RED));
+                }
+            }
         } else {
-            player.sendMessage(ChatColor.RED + "Usage: /tstaffmode <on|off>");
-            return true;
+            player.sendMessage(Component.text("Usage: /tstaffmode <on|off>").color(NamedTextColor.RED));
         }
         return true;
+    }
+
+    public void searchForUpdate() {
+        try {
+            // Open a connection to GitHub API
+            // Use URI to parse and validate the URL
+            URI apiUri = new URI(GITHUB_API_URL);
+
+            // Convert URI to URL for the HttpURLConnection
+            URL apiUrl = apiUri.toURL();
+
+            // Open a connection to GitHub API
+            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            // Read the response
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(connection.getInputStream());
+
+            // Extract relevant fields from the JSON response
+            newPluginVersion = rootNode.get("tag_name").asText(); // e.g., "v1.2.0"
+            String downloadUrl = rootNode.get("assets").get(0).get("browser_download_url").asText(); // First asset's download URL
+            newPluginMinecraftVersion = rootNode.get("body").asText(); // Assuming Minecraft version is in the release notes
+
+            // Log update info
+            getLogger().info("Found update: Version " + newPluginVersion + " for Minecraft " + newPluginMinecraftVersion);
+            getLogger().info("Download URL: " + downloadUrl);
+
+        } catch (Exception e) {
+            getLogger().warning("Failed to check for updates: " + e.getMessage());
+        }
+
+    }
+
+    public boolean updatePlugin() {
+        try {
+            // Define the URI for the download URL
+            URI downloadUri = new URI("https://github.com/tenthdragon103/staffMode10/releases/download/" + newPluginVersion + "/TStaffmode-" + newPluginVersion + ".jar");
+
+            // Convert URI to URL
+            URL downloadUrl = downloadUri.toURL();
+
+            File newJar = new File("plugins/TStaffMode-" + newPluginVersion + ".jar");
+            File oldJar = new File(CURRENT_PLUGIN_JAR);
+
+            // Download the new JAR file
+            FileUtils.copyURLToFile(downloadUrl, newJar);
+
+            // Replace the old JAR
+            if (oldJar.delete()) {
+                getLogger().info("Plugin updated to version " + newPluginVersion + "! Restart the server to apply the update.");
+                return true;
+            } else {
+                getLogger().warning("Failed to delete old plugin JAR.");
+                return false;
+            }
+        } catch (Exception e) {
+            getLogger().warning("Failed to update plugin: " + e.getMessage());
+            return false;
+        }
     }
 
     //enable staffmode for a player
@@ -168,7 +266,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         //check if player is already in staffmode
         if (savedInventories.containsKey(uuid)) {
-            player.sendMessage(ChatColor.RED + "You are already in staff mode.");
+            player.sendMessage(Component.text("You are already in staff mode.").color(NamedTextColor.RED));
             return;
         }
 
@@ -179,7 +277,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
 
-        player.sendMessage(ChatColor.GREEN + "Staff mode enabled.");
+        player.sendMessage(Component.text("Staff mode enabled.").color(NamedTextColor.GREEN));
         getLogger().info(player.getName() + "has enabled staff mode.");
     }
 
@@ -189,7 +287,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         //check if player is in staff mode
         if (!savedInventories.containsKey(uuid)) {
-            player.sendMessage(ChatColor.RED + "You are not in staff mode.");
+            player.sendMessage(Component.text("You are not in staff mode.").color(NamedTextColor.RED));
             return;
         }
 
@@ -201,7 +299,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 
-        player.sendMessage(ChatColor.GREEN + "Staff mode disabled.");
+        player.sendMessage(Component.text("Staff mode disabled.").color(NamedTextColor.GREEN));
         getLogger().info(player.getName() + "has disabled staff mode.");
     }
 
@@ -211,7 +309,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         if (!savedInventories.containsKey(uuid)) {
             if (sendMessage) {
-                player.sendMessage(ChatColor.RED + "Player is not in staff mode.");
+                player.sendMessage(Component.text("Player is not in staff mode.").color(NamedTextColor.RED));
             }
             return;
         }
@@ -224,7 +322,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         removeSavedInventory(uuid);
 
         if (sendMessage) {
-            player.sendMessage(ChatColor.GREEN + "Staff mode disabled for player " + player.getName() + ".");
+            player.sendMessage(Component.text("Staff mode disabled for player " + player.getName() + ".").color(NamedTextColor.GREEN));
         }
     }
 
@@ -233,7 +331,9 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
     }
 
     private void aboutHelpMessage(Player player) {
-        player.sendMessage(ChatColor.DARK_GRAY + "Plugin version is " + ChatColor.YELLOW + "1.0" + ChatColor.DARK_GRAY
-                + "built for minecraft version " + ChatColor.YELLOW + "1.21.0");
+        player.sendMessage(Component.text("Plugin version is ").color(NamedTextColor.GREEN)
+                .append(Component.text("1.1").color(NamedTextColor.YELLOW))
+                .append(Component.text(" built for Minecraft version ").color(NamedTextColor.DARK_GRAY))
+                .append(Component.text("1.21.3").color(NamedTextColor.YELLOW)));
     }
 }
