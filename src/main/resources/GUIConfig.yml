@@ -1,0 +1,31 @@
+staff-commands-menu:
+  sizex: 9
+  sizey: 3
+  title: "Staff Commands Menu"
+  buttons:
+    - slot: 0
+      material: DIAMOND_SWORD
+      name: "&cKick Player"
+      command: "kick {player}"
+    - slot: 1
+      material: BARRIER
+      name: "&4Ban Player"
+      command: "ban {player}"
+    - slot: 2
+      material: PAPER
+      name: "&eMute Player"
+      command: "mute {player}"
+
+punishment-menu:
+  sizex: 9
+  sizey: 3
+  title: "Punishment Menu"
+  buttons:
+    - slot: 0
+      material: IRON_SWORD
+      name: "&cIssue Warning"
+      command: "warn {player}"
+    - slot: 4
+      material: BOOK
+      name: "&eView Player History"
+      command: "history {player}"
