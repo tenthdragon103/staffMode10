@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e7e208a-a453-4ff1-bdf8-6dd8d9d9d208" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="5e7e208a-a453-4ff1-bdf8-6dd8d9d9d208" name="Changes" comment="added new update automation feature">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +60,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -82,6 +79,8 @@
       <workItem from="1728849352850" duration="6445000" />
       <workItem from="1730600863668" duration="1166000" />
       <workItem from="1730602275360" duration="2350000" />
+      <workItem from="1735858367494" duration="2437000" />
+      <workItem from="1735861004553" duration="8031000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -91,7 +90,39 @@
       <option name="project" value="LOCAL" />
       <updated>1730604550014</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1735858415166</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735858415166</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updated minecraft version and switched to paper">
+      <option name="closed" value="true" />
+      <created>1735872538248</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735872538248</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updated minecraft version and added another dependency">
+      <option name="closed" value="true" />
+      <created>1735872565763</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1735872565763</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added new update automation feature">
+      <option name="closed" value="true" />
+      <created>1735872585837</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1735872585837</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,6 +141,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="updated minecraft version and switched to paper" />
+    <MESSAGE value="updated minecraft version and added another dependency" />
+    <MESSAGE value="added new update automation feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="added new update automation feature" />
   </component>
 </project>
