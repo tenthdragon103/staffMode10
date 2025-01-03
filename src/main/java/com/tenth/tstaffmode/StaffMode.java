@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.codehaus.plexus.util.FileUtils;
 import org.json.simple.JSONObject;
 
+import javax.naming.Name;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -156,7 +157,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
                         .hoverEvent(HoverEvent.showText(Component.text("Plugin version " + newPluginVersion + " for Minecraft version " + newPluginMinecraftVersion)))
                 .append(Component.text("[Allow]")
                         .color(NamedTextColor.GREEN)
-                        .clickEvent(ClickEvent.runCommand("/tstaffmode allowUpdate")));
+                        .clickEvent(ClickEvent.runCommand("/tstaffmode updateAllow")));
         player.sendMessage(message);
     }
 
@@ -172,7 +173,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         //check perms
         if (!player.hasPermission("tstaffmode.use")) {
-            player.sendMessage(ChatColor.RED + "You dont have permission to use this command.");
+            player.sendMessage(Component.text("You dont have permission to use this command.").color(NamedTextColor.RED));
             return true;
         }
 
