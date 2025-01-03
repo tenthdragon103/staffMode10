@@ -1,7 +1,7 @@
 name: TStaffMode
 main: com.tenth.tstaffmode.StaffMode
 version: 1.1
-api-version: 1.21
+api-version: 1.21.3
 commands:
   tstaffmode:
     description: Toggle staff mode. Wipes user's inventory.
