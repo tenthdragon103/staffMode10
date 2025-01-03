@@ -156,7 +156,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
                         .hoverEvent(HoverEvent.showText(Component.text("Plugin version " + newPluginVersion + " for Minecraft version " + newPluginMinecraftVersion)))
                 .append(Component.text("[Allow]")
                         .color(NamedTextColor.GREEN)
-                        .clickEvent(ClickEvent.runCommand("/staffmode allowUpdate")));
+                        .clickEvent(ClickEvent.runCommand("/tstaffmode allowUpdate")));
         player.sendMessage(message);
     }
 
