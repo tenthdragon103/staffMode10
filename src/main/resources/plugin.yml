@@ -11,10 +11,32 @@ commands:
     description: Get plugin help and version.
     usage: /tstaffmode help
     permission: tstaffmode.use
+  updateAllow:
+    description: Allow plugin to grab a new update off GitHub and replace old version.
+    usage: /tstaffmode updateAllow
+    permission: tstaffmode.updater
+  updateSearch:
+    description: Allow plugin to search GitHub for a new update.
+    usage: /tstaffmode updateSearch
+    permission: tstaffmode.updater
+  punish:
+    description: Open a configurable menu to run punishments (command permissions still need to be assigned)
+    usage: /tstaffmode punish <playerName>
+    permission: tstaffmode.punish
+  staffcmds:
+    description: Open a configurable menu to run commands (command permissions still need to be assigned)
+    usage: /tstaffmode staffcmds
+    permission: tstaffmode.staffcmds
 permissions:
-  staffmode.use:
+  tstaffmode.use:
     description: Allows usage of staffmode commands
     default: op
-  staffmode.updater:
+  tstaffmode.updater:
     description: Allow admins to give the plugin permission to pull from github new code to update versions.
+    default: op
+  tstaffmode.punish:
+    description: Open a configurable menu to run punishments (command permissions still need to be assigned)
+    default: op
+  tstaffmode.staffcmds:
+    description: Open a configurable menu to run commands (command permissions still need to be assigned)
     default: op
