@@ -1,6 +1,6 @@
 name: TStaffMode
 main: com.tenth.tstaffmode.StaffMode
-version: 1.0
+version: 1.1
 api-version: 1.21
 commands:
   tstaffmode:
@@ -14,4 +14,7 @@ commands:
 permissions:
   staffmode.use:
     description: Allows usage of staffmode commands
+    default: op
+  staffmode.updater:
+    description: Allow admins to give the plugin permission to pull from github new code to update versions.
     default: op
