@@ -7,6 +7,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -201,9 +203,28 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             }
         } else if (args.length == 1 && args[0].equalsIgnoreCase("updateSearch")) {
             searchForUpdate();
-            player.sendMessage(Component.text("GitHub updates parsed.").color(NamedTextColor.GREEN));
+            player.sendMessage(Component.text("GitHub updates parsed. See console for info.").color(NamedTextColor.GREEN));
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("punish")) {
+            if (!player.hasPermission("tstaffmode.punish")) {
+                player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
+            } else {
+                GUIManager gui = new GUIManager(getConfig());
+                Player target = Bukkit.getServer().getPlayer(args[1]);
+                if (target != null) {
+                    gui.openPunishmentMenu(player, target);
+                } else {
+                    player.sendMessage(Component.text("Target not found.").color(NamedTextColor.RED));
+                }
+            }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("staffcmds")) {
+            if (!player.hasPermission("tstaffmode.staffcmds")) {
+                player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
+            } else {
+                GUIManager gui = new GUIManager(getConfig());
+                gui.openStaffCommandsMenu(player);
+            }
         } else {
-            player.sendMessage(Component.text("Usage: /tstaffmode <on|off>").color(NamedTextColor.RED));
+            player.sendMessage(Component.text("Usage: /tstaffmode <on|off>, /tstaffmode punish <playerName>, /tstaffmode staffcmds").color(NamedTextColor.RED));
         }
         return true;
     }
@@ -290,6 +311,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
 
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
         player.sendMessage(Component.text("Staff mode enabled.").color(NamedTextColor.GREEN));
         getLogger().info(player.getName() + "has enabled staff mode.");
     }
@@ -312,6 +334,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
 
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, 1);
         player.sendMessage(Component.text("Staff mode disabled.").color(NamedTextColor.GREEN));
         getLogger().info(player.getName() + "has disabled staff mode.");
     }
