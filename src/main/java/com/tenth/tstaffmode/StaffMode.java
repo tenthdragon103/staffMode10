@@ -52,6 +52,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         getServer().getPluginManager().registerEvents(new StaffModeListener(this), this);
 
         getLogger().info(ChatColor.GREEN + "TStaffMode Enabled.");
+        searchForUpdate();
     }
 
     @Override
@@ -193,6 +194,9 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
                     player.sendMessage(Component.text("Update failed! See console for further information.").color(NamedTextColor.RED));
                 }
             }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("updateSearch")) {
+            searchForUpdate();
+            player.sendMessage(Component.text("GitHub updates parsed.").color(NamedTextColor.GREEN));
         } else {
             player.sendMessage(Component.text("Usage: /tstaffmode <on|off>").color(NamedTextColor.RED));
         }
@@ -333,7 +337,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
     private void aboutHelpMessage(Player player) {
         player.sendMessage(Component.text("Plugin version is ").color(NamedTextColor.GREEN)
                 .append(Component.text("1.1").color(NamedTextColor.YELLOW))
-                .append(Component.text(" built for Minecraft version ").color(NamedTextColor.DARK_GRAY))
+                .append(Component.text(" built for Minecraft version ").color(NamedTextColor.GREEN))
                 .append(Component.text("1.21.3").color(NamedTextColor.YELLOW)));
     }
 }
