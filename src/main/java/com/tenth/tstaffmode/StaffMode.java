@@ -161,6 +161,10 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         player.sendMessage(message);
     }
 
+    public String getNewPluginVersion() {
+        return  newPluginVersion;
+    }
+
     //handles /staffmode commmand
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -227,9 +231,13 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             String downloadUrl = rootNode.get("assets").get(0).get("browser_download_url").asText(); // First asset's download URL
             newPluginMinecraftVersion = rootNode.get("body").asText(); // Assuming Minecraft version is in the release notes
 
-            // Log update info
-            getLogger().info("Found update: Version " + newPluginVersion + " for Minecraft " + newPluginMinecraftVersion);
-            getLogger().info("Download URL: " + downloadUrl);
+            String currentVersion = getDescription().getVersion();
+            if (currentVersion.equals(newPluginVersion)) {
+                getLogger().info("TStaffMode is up to date.");
+            } else {
+                getLogger().info("Found update: Version " + newPluginVersion + " for Minecraft " + newPluginMinecraftVersion);
+                getLogger().info("Download URL: " + downloadUrl);
+            }
 
         } catch (Exception e) {
             getLogger().warning("Failed to check for updates: " + e.getMessage());
