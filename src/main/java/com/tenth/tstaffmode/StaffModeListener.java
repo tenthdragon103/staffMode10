@@ -1,5 +1,7 @@
 package com.tenth.tstaffmode;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,9 +37,12 @@ public class StaffModeListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
+        if (player.hasPermission("staffmode.updater")) {
+            plugin.notifyAdminUpdate(player);
+        }
 
         if (plugin.getSavedInventories().containsKey(uuid)) {
-            player.sendMessage(ChatColor.GREEN + "Staff mode is still enabled.");
+            player.sendMessage(Component.text("Staff mode is still enabled.").color(NamedTextColor.GREEN));
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1, false, false));
         }
     }
@@ -54,7 +59,7 @@ public class StaffModeListener implements Listener {
             event.getDrops().clear();
             // Optionally, send a message or handle accordingly
             // TODO: 9/20/2024 make this actually work, the stupid death chest plugin just swipes all the players items and keeps them
-            player.sendMessage(ChatColor.RED + "You died in staff mode. Your inventory has been kept. **death chest plugin intervenes with this, so probably didnt work**");
+            player.sendMessage(Component.text("You died in staff mode. Your inventory has been kept. **death chest plugin intervenes with this, so probably didnt work**").color(NamedTextColor.RED));
         }
     }
 }
