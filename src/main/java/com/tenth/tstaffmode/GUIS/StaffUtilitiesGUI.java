@@ -52,7 +52,6 @@ public class StaffUtilitiesGUI implements InventoryProvider {
 
                 // Add to inventory
                 inventoryContents.set(slot / 9, slot % 9, ClickableItem.of(item, e -> {
-
                     player.performCommand(command);
                 }));
             }
