@@ -49,7 +49,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         this.getCommand("tstaffmode").setExecutor(this); //may need try/catch or a nonnull requirement. this is the base command.
 
         setupInventoryFile(); //setup inventories.yml file
-        setupGUIfile(); //setup GUIConfig.yml file
+        setupGUIFile(); //setup GUIConfig.yml file
 
         loadInventories(); //load previously saved inventories
 
@@ -74,8 +74,8 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         inventoryConfig = YamlConfiguration.loadConfiguration(inventoryFile); //load the config file for inventories
     }
 
-    private void setupGUIfile() {
-        GUIFile = new File(getDataFolder(), "inventories.yml");
+    private void setupGUIFile() {
+        GUIFile = new File(getDataFolder(), "GUIConfig.yml");
         if (!GUIFile.exists()) {
             GUIFile.getParentFile().mkdirs();
             saveResource("GUIConfig.yml", false);
