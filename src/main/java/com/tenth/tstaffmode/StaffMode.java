@@ -21,9 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.codehaus.plexus.util.FileUtils;
-import org.json.simple.JSONObject;
 
-import javax.naming.Name;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -35,7 +33,9 @@ import java.util.List;
 public class StaffMode extends JavaPlugin implements CommandExecutor {
     private Map<UUID, ItemStack[]> savedInventories;
     private File inventoryFile;
+    private File GUIFile;
     private FileConfiguration inventoryConfig;
+    private FileConfiguration GUIFileConfig;
     private String newPluginVersion;
     private String newPluginMinecraftVersion;
     private static final String GITHUB_API_URL = "https://api.github.com/repos/tenthdragon103/staffMode10/releases/latest";
@@ -49,6 +49,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         this.getCommand("tstaffmode").setExecutor(this); //may need try/catch or a nonnull requirement. this is the base command.
 
         setupInventoryFile(); //setup inventories.yml file
+        setupGUIfile(); //setup GUIConfig.yml file
 
         loadInventories(); //load previously saved inventories
 
@@ -71,6 +72,15 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             saveResource("inventories.yml", false);
         }
         inventoryConfig = YamlConfiguration.loadConfiguration(inventoryFile); //load the config file for inventories
+    }
+
+    private void setupGUIfile() {
+        GUIFile = new File(getDataFolder(), "inventories.yml");
+        if (!GUIFile.exists()) {
+            GUIFile.getParentFile().mkdirs();
+            saveResource("GUIConfig.yml", false);
+        }
+        GUIFileConfig = YamlConfiguration.loadConfiguration(GUIFile); //load the config file for inventories
     }
 
     //loads all inventories from the yml to memory
@@ -208,7 +218,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             if (!player.hasPermission("tstaffmode.punish")) {
                 player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
             } else {
-                GUIManager gui = new GUIManager(getConfig());
+                GUIManager gui = new GUIManager(GUIFileConfig);
                 Player target = Bukkit.getServer().getPlayer(args[1]);
                 if (target != null) {
                     gui.openPunishmentMenu(player, target);
@@ -220,7 +230,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             if (!player.hasPermission("tstaffmode.staffcmds")) {
                 player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
             } else {
-                GUIManager gui = new GUIManager(getConfig());
+                GUIManager gui = new GUIManager(GUIFileConfig);
                 gui.openStaffCommandsMenu(player);
             }
         } else {
@@ -368,7 +378,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
     private void aboutHelpMessage(Player player) {
         player.sendMessage(Component.text("Plugin version is ").color(NamedTextColor.GREEN)
-                .append(Component.text("1.1").color(NamedTextColor.YELLOW))
+                .append(Component.text("1.2").color(NamedTextColor.YELLOW))
                 .append(Component.text(" built for Minecraft version ").color(NamedTextColor.GREEN))
                 .append(Component.text("1.21.3").color(NamedTextColor.YELLOW)));
     }
