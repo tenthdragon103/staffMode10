@@ -7,6 +7,7 @@ import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.Material;
@@ -43,6 +44,7 @@ public class StaffUtilitiesGUI implements InventoryProvider {
             for (Map<?, ?> button : buttons) {
                 int posx = (int) button.get("posx");
                 int posy = (int) button.get("posy");
+                boolean close = (boolean) button.get("closeonclick");
                 String materialName = (String) button.get("material");
                 String name = (String) button.get("name");
                 String command = (String) button.get("command");
@@ -56,21 +58,18 @@ public class StaffUtilitiesGUI implements InventoryProvider {
                 }
 
                 // Add to inventory
-                inventoryContents.set(posx, posy, ClickableItem.of(item, e -> {
+                inventoryContents.set(posy, posx, ClickableItem.of(item, e -> {
                     e.setCancelled(true);
-                    player.closeInventory();
-                    player.performCommand(command);
+                    if (close) {
+                        player.closeInventory();
+                    }
+                    Bukkit.dispatchCommand(player, command);
                 }));
             }
 
         } else {
             player.sendMessage(Component.text("No buttons configured in the staff commands menu.").color(NamedTextColor.RED));
         }
-        inventoryContents.set(7, 1, ClickableItem.of(new ItemStack(Material.APPLE), e -> {
-            e.setCancelled(true);
-            player.closeInventory();
-            player.sendMessage("button pressed");
-        }));
     }
 
     @Override

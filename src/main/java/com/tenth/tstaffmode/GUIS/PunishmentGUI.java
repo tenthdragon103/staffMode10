@@ -7,6 +7,7 @@ import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -45,6 +46,7 @@ public class PunishmentGUI implements InventoryProvider {
             for (Map<?, ?> button : buttons) {
                 int posx = (int) button.get("posx");
                 int posy = (int) button.get("posy");
+                boolean close = (boolean) button.get("closeonclick");
                 String materialName = (String) button.get("material");
                 String name = (String) button.get("name");
                 String command = (String) button.get("command");
@@ -58,8 +60,11 @@ public class PunishmentGUI implements InventoryProvider {
                 }
 
                 // Add to inventory
-                inventoryContents.set(posx, posy, ClickableItem.of(item, e -> {
-                    player.performCommand(command.replace("{player}", target.getName()));
+                inventoryContents.set(posy, posx, ClickableItem.of(item, e -> {
+                    if (close) {
+                        player.closeInventory();
+                    }
+                    Bukkit.dispatchCommand(player, command.replace("{player}", target.getName()));
                 }));
             }
         } else {

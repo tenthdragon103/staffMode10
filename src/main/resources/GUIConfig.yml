@@ -8,41 +8,49 @@ staff-commands-menu:
       material: DIAMOND_SWORD
       name: "Survival mode"
       command: "gamemode survival"
+      closeonclick: true
     - posx: 1
       posy: 0
       material: GRASS_BLOCK
       name: "Creative mode"
       command: "gamemode creative"
+      closeonclick: true
     - posx: 2
       posy: 0
       material: ENDER_EYE
       name: "Spectator mode"
       command: "gamemode spectator"
+      closeonclick: true
     - posx: 8
       posy: 0
       material: FEATHER
       name: "Fly"
       command: "fly"
+      closeonclick: false
     - posx: 7
       posy: 0
       material: FILLED_MAP
       name: "Staff mode on"
       command: "tstaffmode on"
+      closeonclick: false
     - posx: 6
       posy: 0
       material: FIRE_CHARGE
       name: "Staffmode off"
       command: "tstaffmode off"
+      closeonclick: false
     - posx: 5
       posy: 0
       material: DIAMOND
       name: "Enable CoreProtect inspector"
       command: "coreprotect inspect"
+      closeonclick: false
     - posx: 4
       posy: 0
       material: GLASS
       name: "Vanish"
       command: "vanish"
+      closeonclick: false
 
 punishment-menu:
   sizex: 9
@@ -54,48 +62,59 @@ punishment-menu:
       material: WOODEN_SWORD
       name: "Warn player for spam"
       command: "warn {player} spam"
+      closeonclick: false
     - posx: 1
       posy: 0
       material: STONE_SWORD
       name: "Warn player for language"
       command: "warn {player} language"
+      closeonclick: false
     - posx: 2
       posy: 0
       material: IRON_SWORD
       name: "Warn player for greifing"
       command: "warn {player} greifing"
+      closeonclick: false
+      closeonclick: false
     - posx: 3
       posy: 0
       material: GOLDEN_SWORD
       name: "Warn player for breaking rules"
       command: "warn {player} breaking rules"
+      closeonclick: false
     - posx: 4
       posy: 0
       material: DIAMOND_SWORD
       name: "Kick player for breaking rules"
       command: "warn {player} breaking rules"
+      closeonclick: false
     - posx: 5
       posy: 0
       material: NETHERITE_SWORD
       name: "Tempban player for one hour for breaking rules"
       command: "warn {player} breaking rules"
+      closeonclick: false
     - posx: 6
       posy: 0
       material: BARRIER
       name: "Permanently ban player for breaking rules"
       command: "ban {player} breaking rules"
+      closeonclick: false
     - posx: 7
       posy: 0
       material: BARRIER
       name: "Permanently IP ban player for breaking rules"
       command: "ipban {player} breaking rules"
+      closeonclick: false
     - posx: 0
       posy: 1
       material: BOOK
       name: "See previous warnings"
       command: "warnings {player}"
+      closeonclick: false
     - posx: 1
       posy: 1
       material: ENDER_PEARL
       name: "TP to player"
       command: "tp {player}"
+      closeonclick: false
