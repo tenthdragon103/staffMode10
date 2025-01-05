@@ -87,7 +87,6 @@ punishment-menu:
       name: "Warn player for greifing"
       command: "warn {player} greifing"
       closeonclick: false
-      closeonclick: false
     - posx: 3
       posy: 0
       material: GOLDEN_SWORD
