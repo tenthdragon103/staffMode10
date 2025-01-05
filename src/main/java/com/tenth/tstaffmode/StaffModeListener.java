@@ -37,7 +37,7 @@ public class StaffModeListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if (player.hasPermission("staffmode.updater") && plugin.getDescription().getVersion().equals(plugin.getNewPluginVersion())) {
+        if (player.hasPermission("staffmode.updater") && !plugin.getDescription().getVersion().equals(plugin.getNewPluginVersion())) {
             plugin.notifyAdminUpdate(player);
         }
 
