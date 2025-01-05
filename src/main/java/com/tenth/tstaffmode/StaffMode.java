@@ -40,7 +40,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
     private String newPluginVersion;
     private String newPluginMinecraftVersion;
     private static final String GITHUB_API_URL = "https://api.github.com/repos/tenthdragon103/staffMode10/releases/latest";
-    private static final String CURRENT_PLUGIN_JAR = "plugins/TStaffMode-1.2.jar";
+    private static final String CURRENT_PLUGIN_JAR = "plugins/TStaffMode-1.3.jar";
 
     @Override
     public void onEnable() {

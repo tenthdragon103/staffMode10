@@ -30,7 +30,7 @@ staff-commands-menu:
       command: "tstaffmode on"
     - posx: 6
       posy: 0
-      material: FIRE
+      material: FIRE_CHARGE
       name: "Staffmode off"
       command: "tstaffmode off"
     - posx: 5
