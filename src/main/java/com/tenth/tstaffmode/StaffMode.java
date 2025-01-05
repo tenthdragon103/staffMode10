@@ -32,6 +32,7 @@ import java.util.List;
 
 public class StaffMode extends JavaPlugin implements CommandExecutor {
     private Map<UUID, ItemStack[]> savedInventories;
+    private GUIManager guiManager;
     private File inventoryFile;
     private File GUIFile;
     private FileConfiguration inventoryConfig;
@@ -55,14 +56,16 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
         getServer().getPluginManager().registerEvents(new StaffModeListener(this), this);
 
-        getLogger().info(ChatColor.GREEN + "TStaffMode Enabled.");
+        guiManager = new GUIManager(GUIFileConfig, this);
+        guiManager.init();
+        getLogger().info("TStaffMode enabled");
         searchForUpdate();
     }
 
     @Override
     public void onDisable() {
         saveInventories(); //save all inventories on plugin disable
-        getLogger().info(ChatColor.GREEN + "Staff Inventories Saved.");
+        getLogger().info("Staff Inventories Saved.");
     }
 
     private void setupInventoryFile() {
@@ -218,10 +221,9 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             if (!player.hasPermission("tstaffmode.punish")) {
                 player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
             } else {
-                GUIManager gui = new GUIManager(GUIFileConfig);
                 Player target = Bukkit.getServer().getPlayer(args[1]);
                 if (target != null) {
-                    gui.openPunishmentMenu(player, target);
+                    guiManager.openPunishmentMenu(player, target);
                 } else {
                     player.sendMessage(Component.text("Target not found.").color(NamedTextColor.RED));
                 }
@@ -230,8 +232,7 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             if (!player.hasPermission("tstaffmode.staffcmds")) {
                 player.sendMessage(Component.text("You do not have permission to run this command.").color(NamedTextColor.RED));
             } else {
-                GUIManager gui = new GUIManager(GUIFileConfig);
-                gui.openStaffCommandsMenu(player);
+                guiManager.openStaffCommandsMenu(player);
             }
         } else {
             player.sendMessage(Component.text("Usage: /tstaffmode <on|off>, /tstaffmode punish <playerName>, /tstaffmode staffcmds").color(NamedTextColor.RED));

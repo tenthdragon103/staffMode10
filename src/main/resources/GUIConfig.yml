@@ -3,29 +3,99 @@ staff-commands-menu:
   sizey: 3
   title: "Staff Commands Menu"
   buttons:
-    - slot: 0
+    - posx: 0
+      posy: 0
       material: DIAMOND_SWORD
-      name: "&cKick Player"
-      command: "kick {player}"
-    - slot: 1
-      material: BARRIER
-      name: "&4Ban Player"
-      command: "ban {player}"
-    - slot: 2
-      material: PAPER
-      name: "&eMute Player"
-      command: "mute {player}"
+      name: "Survival mode"
+      command: "gamemode survival"
+    - posx: 1
+      posy: 0
+      material: GRASS_BLOCK
+      name: "Creative mode"
+      command: "gamemode creative"
+    - posx: 2
+      posy: 0
+      material: ENDER_EYE
+      name: "Spectator mode"
+      command: "gamemode spectator"
+    - posx: 8
+      posy: 0
+      material: FEATHER
+      name: "Fly"
+      command: "fly"
+    - posx: 7
+      posy: 0
+      material: FILLED_MAP
+      name: "Staff mode on"
+      command: "tstaffmode on"
+    - posx: 6
+      posy: 0
+      material: FIRE
+      name: "Staffmode off"
+      command: "tstaffmode off"
+    - posx: 5
+      posy: 0
+      material: DIAMOND
+      name: "Enable CoreProtect inspector"
+      command: "coreprotect inspect"
+    - posx: 4
+      posy: 0
+      material: GLASS
+      name: "Vanish"
+      command: "vanish"
 
 punishment-menu:
   sizex: 9
   sizey: 3
   title: "Punishment Menu"
   buttons:
-    - slot: 0
+    - posx: 0
+      posy: 0
+      material: WOODEN_SWORD
+      name: "Warn player for spam"
+      command: "warn {player} spam"
+    - posx: 1
+      posy: 0
+      material: STONE_SWORD
+      name: "Warn player for language"
+      command: "warn {player} language"
+    - posx: 2
+      posy: 0
       material: IRON_SWORD
-      name: "&cIssue Warning"
-      command: "warn {player}"
-    - slot: 4
+      name: "Warn player for greifing"
+      command: "warn {player} greifing"
+    - posx: 3
+      posy: 0
+      material: GOLDEN_SWORD
+      name: "Warn player for breaking rules"
+      command: "warn {player} breaking rules"
+    - posx: 4
+      posy: 0
+      material: DIAMOND_SWORD
+      name: "Kick player for breaking rules"
+      command: "warn {player} breaking rules"
+    - posx: 5
+      posy: 0
+      material: NETHERITE_SWORD
+      name: "Tempban player for one hour for breaking rules"
+      command: "warn {player} breaking rules"
+    - posx: 6
+      posy: 0
+      material: BARRIER
+      name: "Permanently ban player for breaking rules"
+      command: "ban {player} breaking rules"
+    - posx: 7
+      posy: 0
+      material: BARRIER
+      name: "Permanently IP ban player for breaking rules"
+      command: "ipban {player} breaking rules"
+    - posx: 0
+      posy: 1
       material: BOOK
-      name: "&eView Player History"
-      command: "history {player}"
+      name: "See previous warnings"
+      command: "warnings {player}"
+    - posx: 1
+      posy: 1
+      material: ENDER_PEARL
+      name: "TP to player"
+      command: "tp {player}"

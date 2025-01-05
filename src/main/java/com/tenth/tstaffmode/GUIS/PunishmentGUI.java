@@ -1,5 +1,6 @@
 package com.tenth.tstaffmode.GUIS;
 
+import com.tenth.tstaffmode.GUIManager;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -11,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.Map;
@@ -18,16 +20,19 @@ import java.util.Map;
 public class PunishmentGUI implements InventoryProvider {
     private final FileConfiguration config;
     private final Player target;
+    private final GUIManager guiManager;
 
-    public PunishmentGUI(FileConfiguration config, Player target) {
+    public PunishmentGUI(FileConfiguration config, GUIManager guiManager, Player target) {
         this.config = config;
+        this.guiManager = guiManager;
         this.target = target;
     }
 
     public SmartInventory getInventory(int x, int y, String title) {
         return SmartInventory.builder()
-                .id("StaffUtilitiesGUI")
-                .provider(new PunishmentGUI(config, target))
+                .id("PunishmentGUI")
+                .provider(this)
+                .manager(guiManager)
                 .size(y, x)
                 .title(title)
                 .build();
@@ -38,7 +43,8 @@ public class PunishmentGUI implements InventoryProvider {
         if (config.contains("punishment-menu.buttons")) {
             List<Map<?, ?>> buttons = config.getMapList("punishment-menu.buttons");
             for (Map<?, ?> button : buttons) {
-                int slot = (int) button.get("slot");
+                int posx = (int) button.get("posx");
+                int posy = (int) button.get("posy");
                 String materialName = (String) button.get("material");
                 String name = (String) button.get("name");
                 String command = (String) button.get("command");
@@ -52,7 +58,7 @@ public class PunishmentGUI implements InventoryProvider {
                 }
 
                 // Add to inventory
-                inventoryContents.set(slot / 9, slot % 9, ClickableItem.of(item, e -> {
+                inventoryContents.set(posx, posy, ClickableItem.of(item, e -> {
                     player.performCommand(command.replace("{player}", target.getName()));
                 }));
             }
