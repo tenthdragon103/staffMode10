@@ -51,6 +51,18 @@ staff-commands-menu:
       name: "Vanish"
       command: "vanish"
       closeonclick: false
+    - posx: 7
+      posy: 2
+      material: BELL
+      name: "Search for plugin updates."
+      command: "tstaffmode updateSearch"
+      closeonclick: true
+    - posx: 8
+      posy: 2
+      material: BEACON
+      name: "Update plugin (run search first)"
+      command: "tstaffmode updateAllow"
+      closeonclick: true
 
 punishment-menu:
   sizex: 9

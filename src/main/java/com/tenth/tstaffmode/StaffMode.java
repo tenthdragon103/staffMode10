@@ -40,7 +40,8 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
     private String newPluginVersion;
     private String newPluginMinecraftVersion;
     private static final String GITHUB_API_URL = "https://api.github.com/repos/tenthdragon103/staffMode10/releases/latest";
-    private static final String CURRENT_PLUGIN_JAR = "plugins/TStaffMode-1.3.jar";
+    private static String CURRENT_PLUGIN_JAR;
+    public final String currentVersion = getDescription().getVersion();
 
     @Override
     public void onEnable() {
@@ -55,6 +56,8 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
         loadInventories(); //load previously saved inventories
 
         getServer().getPluginManager().registerEvents(new StaffModeListener(this), this);
+
+        CURRENT_PLUGIN_JAR = "plugins/TStaffMode-" + currentVersion + ".jar";
 
         guiManager = new GUIManager(GUIFileConfig, this);
         guiManager.init();
@@ -263,7 +266,6 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
             String downloadUrl = rootNode.get("assets").get(0).get("browser_download_url").asText(); // First asset's download URL
             newPluginMinecraftVersion = rootNode.get("body").asText(); // Assuming Minecraft version is in the release notes
 
-            String currentVersion = getDescription().getVersion();
             if (currentVersion.equals(newPluginVersion)) {
                 getLogger().info("TStaffMode is up to date.");
             } else {
@@ -379,8 +381,8 @@ public class StaffMode extends JavaPlugin implements CommandExecutor {
 
     private void aboutHelpMessage(Player player) {
         player.sendMessage(Component.text("Plugin version is ").color(NamedTextColor.GREEN)
-                .append(Component.text("1.2").color(NamedTextColor.YELLOW))
+                .append(Component.text(currentVersion).color(NamedTextColor.YELLOW))
                 .append(Component.text(" built for Minecraft version ").color(NamedTextColor.GREEN))
-                .append(Component.text("1.21.3").color(NamedTextColor.YELLOW)));
+                .append(Component.text(getDescription().getAPIVersion()).color(NamedTextColor.YELLOW)));
     }
 }
